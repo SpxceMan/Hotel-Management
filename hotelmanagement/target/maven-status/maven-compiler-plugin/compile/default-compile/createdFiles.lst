@@ -1,11 +1,11 @@
 com\hotel\App.class
 com\hotel\DashboardController.class
 com\hotel\PrimaryController.class
+com\hotel\CustomerController.class
 com\hotel\Room.class
 com\hotel\Customer.class
 module-info.class
 com\hotel\DataStore.class
-com\hotel\SecondaryController$Room.class
 com\hotel\SecondaryController.class
 com\hotel\Booking.class
 com\hotel\BookingController.class

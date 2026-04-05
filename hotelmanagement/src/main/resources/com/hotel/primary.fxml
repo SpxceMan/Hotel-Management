@@ -7,20 +7,60 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 
-<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.PrimaryController" styleClass="login-root">
+<StackPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.hotel.PrimaryController"
+           styleClass="login-root">
     <children>
-        <VBox fx:id="loginCard" spacing="12.0" alignment="CENTER" styleClass="login-card">
-            <children>
-                <Label text="Hotel Management Login" styleClass="login-title" />
-                <TextField fx:id="usernameField" promptText="Username" />
-                <PasswordField fx:id="passwordField" promptText="Password" />
-                <Button fx:id="loginButton" text="Login" onAction="#handleLogin" />
-                <Label fx:id="errorLabel" textFill="red" />
-            </children>
+        <VBox alignment="CENTER" spacing="0" styleClass="login-card">
             <padding>
-                <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+                <Insets top="40" right="36" bottom="40" left="36"/>
             </padding>
+            <children>
+
+                <!-- Logo circle -->
+                <StackPane alignment="CENTER" style="-fx-background-color:#1e3a8a; -fx-background-radius:28px; -fx-min-width:56px; -fx-min-height:56px; -fx-max-width:56px; -fx-max-height:56px;">
+                    <Label text="H" styleClass="login-logo-label"/>
+                </StackPane>
+
+                <Region minHeight="16"/>
+
+                <!-- Title -->
+                <Label text="Welcome back" styleClass="login-title"/>
+                <Region minHeight="4"/>
+                <Label text="Sign in to Hotel Management System" styleClass="login-subtitle"/>
+
+                <Region minHeight="28"/>
+
+                <!-- Username -->
+                <Label text="USERNAME" styleClass="input-label"/>
+                <Region minHeight="6"/>
+                <TextField fx:id="usernameField" promptText="Enter your username"/>
+                <Region minHeight="16"/>
+
+                <!-- Password -->
+                <Label text="PASSWORD" styleClass="input-label"/>
+                <Region minHeight="6"/>
+                <PasswordField fx:id="passwordField" promptText="Enter your password"/>
+                <Region minHeight="6"/>
+
+                <!-- Error label -->
+                <Label fx:id="errorLabel" styleClass="login-error" wrapText="true"/>
+
+                <Region minHeight="20"/>
+
+                <!-- Login button (full width) -->
+                <Button fx:id="loginButton" text="Sign In" onAction="#handleLogin"
+                        styleClass="login-btn"
+                        maxWidth="Infinity"/>
+
+                <Region minHeight="20"/>
+
+                <!-- Hint -->
+                <Label text="Demo credentials: admin / admin123" styleClass="login-hint" alignment="CENTER"/>
+            </children>
         </VBox>
     </children>
 </StackPane>

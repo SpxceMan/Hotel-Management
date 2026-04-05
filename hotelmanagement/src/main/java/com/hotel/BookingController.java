@@ -1,6 +1,5 @@
 package com.hotel;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -74,7 +73,14 @@ public class BookingController {
         LocalDate checkOut = checkoutPicker.getValue();
 
         if (room == null || customer.isEmpty() || checkIn == null || checkOut == null) {
-            showAlert(Alert.AlertType.WARNING, "Validation Error", "Select a room, enter customer name, and choose check-in/check-out dates.");
+            showAlert(Alert.AlertType.WARNING, "Validation Error",
+                    "Select a room, enter customer name, and choose check-in/check-out dates.");
+            return;
+        }
+
+        // Validate check-in is not in the past
+        if (checkIn.isBefore(LocalDate.now())) {
+            showAlert(Alert.AlertType.WARNING, "Validation Error", "Check-in date cannot be in the past.");
             return;
         }
 
@@ -88,9 +94,15 @@ public class BookingController {
 
         Booking b = new Booking(String.valueOf(room.getRoomNumber()), customer, checkIn, checkOut, total);
         DataStore.bookings.add(b);
-        DataStore.customers.add(new Customer(customer));
 
-        // mark room as booked and trigger list update so UI updates
+        // Only add customer if not already present (avoid duplicates)
+        boolean customerExists = DataStore.customers.stream()
+                .anyMatch(c -> c.getName().equalsIgnoreCase(customer));
+        if (!customerExists) {
+            DataStore.customers.add(new Customer(customer));
+        }
+
+        // Mark room as booked and trigger list update so UI refreshes
         room.setStatus("Booked");
         int idx = DataStore.roomsList.indexOf(room);
         if (idx >= 0) {
@@ -101,18 +113,19 @@ public class BookingController {
         customerField.clear();
         checkinPicker.setValue(null);
         checkoutPicker.setValue(null);
-        messageLabel.setText("Booked room " + room.getRoomNumber() + " for " + customer + ". Total: " + total);
+        messageLabel.setText(String.format("Booked room %s for %s. Total: $%.2f",
+                room.getRoomNumber(), customer, total));
     }
 
     @FXML
     private void handleCheckout() {
         Booking b = bookingsTable.getSelectionModel().getSelectedItem();
         if (b == null) {
-            showAlert(Alert.AlertType.WARNING, "No selection", "Please select a booking to checkout.");
+            showAlert(Alert.AlertType.WARNING, "No Selection", "Please select a booking to checkout.");
             return;
         }
 
-        // find room by room number
+        // Find room by room number and mark it available again
         Room room = DataStore.roomsList.stream()
                 .filter(r -> String.valueOf(r.getRoomNumber()).equals(b.getRoomNumber()))
                 .findFirst().orElse(null);
@@ -123,8 +136,13 @@ public class BookingController {
             if (idx >= 0) DataStore.rooms.set(idx, room);
         }
 
+        // Add to cumulative earnings BEFORE removing the booking
+        DataStore.totalEarnings += b.getTotalPrice();
+
         DataStore.bookings.remove(b);
-        showAlert(Alert.AlertType.INFORMATION, "Checkout", "Checkout complete. Total due: " + b.getTotalPrice());
+        messageLabel.setText(String.format("Checked out. Earned: $%.2f", b.getTotalPrice()));
+        showAlert(Alert.AlertType.INFORMATION, "Checkout",
+                String.format("Checkout complete. Total due: $%.2f", b.getTotalPrice()));
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {

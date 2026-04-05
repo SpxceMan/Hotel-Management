@@ -8,34 +8,53 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.RoomController">
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.hotel.RoomController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
     <top>
-        <GridPane hgap="10" vgap="10" padding="10">
+        <VBox spacing="16">
             <children>
-                <Label text="Room Number:" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-                <TextField fx:id="roomNumberField" GridPane.rowIndex="0" GridPane.columnIndex="1" />
+                <Label text="Rooms" styleClass="view-title"/>
 
-                <Label text="Room Type:" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-                <ComboBox fx:id="roomTypeCombo" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-
-                <Label text="Price:" GridPane.rowIndex="2" GridPane.columnIndex="0" />
-                <TextField fx:id="priceField" GridPane.rowIndex="2" GridPane.columnIndex="1" />
-
-                <Button fx:id="addButton" text="Add Room" onAction="#handleAddRoom" GridPane.rowIndex="3" GridPane.columnIndex="0" />
-                <Button fx:id="updateButton" text="Update Room" onAction="#handleUpdateRoom" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                <HBox styleClass="form-panel" spacing="12" alignment="CENTER_LEFT">
+                    <children>
+                        <Label text="Room No:"/>
+                        <TextField fx:id="roomNumberField" promptText="e.g. 101" prefWidth="90"/>
+                        <Label text="Type:"/>
+                        <ComboBox fx:id="roomTypeCombo" prefWidth="120"/>
+                        <Label text="Price/night:"/>
+                        <TextField fx:id="priceField" promptText="e.g. 99.00" prefWidth="100"/>
+                        <Region HBox.hgrow="ALWAYS"/>
+                        <Button fx:id="addButton"    text="Add Room"    onAction="#handleAddRoom"    styleClass="btn-primary"/>
+                        <Button fx:id="updateButton" text="Update Room" onAction="#handleUpdateRoom" styleClass="btn-secondary"/>
+                    </children>
+                </HBox>
             </children>
-        </GridPane>
+        </VBox>
     </top>
+
     <center>
-        <TableView fx:id="roomsTable" prefHeight="300" prefWidth="400">
-            <columns>
-                <TableColumn fx:id="colNumber" text="Room Number" />
-                <TableColumn fx:id="colType" text="Type" />
-                <TableColumn fx:id="colPrice" text="Price" />
-                <TableColumn fx:id="colStatus" text="Status" />
-            </columns>
-        </TableView>
+        <VBox spacing="0">
+            <padding>
+                <Insets top="16"/>
+            </padding>
+            <children>
+                <TableView fx:id="roomsTable" prefHeight="350" VBox.vgrow="ALWAYS">
+                    <columns>
+                        <TableColumn fx:id="colNumber" text="Room #"  prefWidth="90"/>
+                        <TableColumn fx:id="colType"   text="Type"    prefWidth="130"/>
+                        <TableColumn fx:id="colPrice"  text="Price/Night" prefWidth="130"/>
+                        <TableColumn fx:id="colStatus" text="Status"  prefWidth="120"/>
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
     </center>
 </BorderPane>

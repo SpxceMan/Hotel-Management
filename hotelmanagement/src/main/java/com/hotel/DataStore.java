@@ -15,5 +15,6 @@ public class DataStore {
     public static final ObservableList<Booking> bookings = FXCollections.observableArrayList();
     public static final ObservableList<Customer> customers = FXCollections.observableArrayList();
 
-    // No hardcoded rooms — user creates rooms at runtime
+    // Cumulative earnings — only increases when a booking is checked out
+    public static double totalEarnings = 0.0;
 }

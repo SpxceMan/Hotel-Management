@@ -1,7 +1,6 @@
 package com.hotel;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -21,25 +20,6 @@ public class SecondaryController {
     @FXML
     private TextField priceField;
 
-    private final ArrayList<Room> rooms = new ArrayList<>();
-
-    public static class Room {
-        private final String number;
-        private final String type;
-        private final double price;
-
-        public Room(String number, String type, double price) {
-            this.number = number;
-            this.type = type;
-            this.price = price;
-        }
-
-        @Override
-        public String toString() {
-            return "Room[number=" + number + ", type=" + type + ", price=" + price + "]";
-        }
-    }
-
     @FXML
     private void initialize() {
         roomTypeCombo.setItems(FXCollections.observableArrayList("Single", "Double", "Deluxe"));
@@ -56,6 +36,21 @@ public class SecondaryController {
             return;
         }
 
+        int roomNumber;
+        try {
+            roomNumber = Integer.parseInt(number);
+        } catch (NumberFormatException ex) {
+            showAlert("Validation Error", "Room number must be numeric.");
+            return;
+        }
+
+        // Check uniqueness against the shared DataStore
+        boolean exists = DataStore.roomsList.stream().anyMatch(r -> r.getRoomNumber() == roomNumber);
+        if (exists) {
+            showAlert("Duplicate Room", "A room with this number already exists.");
+            return;
+        }
+
         double price;
         try {
             price = Double.parseDouble(priceText);
@@ -64,13 +59,15 @@ public class SecondaryController {
             return;
         }
 
-        Room room = new Room(number, type, price);
-        rooms.add(room);
-        System.out.println("Added room: " + room);
+        // Add to the shared DataStore so other views (RoomController, BookingController) can see it
+        Room room = new Room(roomNumber, type, price, "Available");
+        DataStore.rooms.add(room);
 
         roomNumberField.clear();
         roomTypeCombo.getSelectionModel().clearSelection();
         priceField.clear();
+
+        showAlert("Success", "Room " + roomNumber + " added successfully.");
     }
 
     private void showAlert(String title, String message) {

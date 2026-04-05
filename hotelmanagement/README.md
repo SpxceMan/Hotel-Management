@@ -1,71 +1,124 @@
-# Hotel Management System (JavaFX)
+# 🏨 Hotel Management System
 
-Small demo JavaFX application for a Hotel Management System.
+A JavaFX desktop application for managing hotel rooms, bookings, customers, and revenue — all with a modern dark-themed UI.
 
-Features
-- Primary dashboard with navigation.
-- Room management form (add room) with basic validation.
-- In-memory storage of rooms (prints added rooms to console).
+---
 
-Project structure
-- `src/main/java/com/hotel/`
-  - `App.java` — main Application; scene management
-  - `PrimaryController.java` — dashboard and navigation
-  - `SecondaryController.java` — room form, validation, in-memory storage
-- `src/main/resources/com/hotel/`
-  - `primary.fxml` — primary layout (VBox)
-  - `secondary.fxml` — room form (GridPane)
-- `module-info.java` — Java module declaration
-- `pom.xml` — Maven configuration (Java 17, JavaFX 17)
+## Screenshots
 
-Requirements
-- Java 17 (JDK 17+)
-- Maven 3.6+ (or use your Maven wrapper)
-- Internet access to download JavaFX artifacts from Maven Central (pom.xml pins JavaFX 17.0.8)
+> Login → Dashboard → Rooms → Bookings → Customers
 
-Run (recommended)
+---
 
-From the project root run:
+## Features
+
+- **Login** — Secure credential check with a modern dark UI (demo: `admin` / `admin123`)
+- **Dashboard** — Live stats cards: Total Rooms, Available Rooms, Active Bookings, Customers, and Total Earnings
+- **Rooms** — Add, update, and view all rooms with number, type, price, and availability status
+- **Bookings** — Book available rooms with customer name, check-in/check-out dates, and automatic price calculation. Checkout marks the room available again and records earnings
+- **Customers** — Add, search, and remove customers. Shows each customer's active booking count and total spent
+
+---
+
+## Tech Stack
+
+| Layer     | Technology              |
+|-----------|-------------------------|
+| Language  | Java 17                 |
+| UI        | JavaFX 17 + FXML + CSS  |
+| Build     | Maven 3.6+              |
+| Storage   | In-memory (runtime only)|
+
+---
+
+## Project Structure
+
+```
+hotelmanagement/
+├── pom.xml
+└── src/main/
+    ├── java/com/hotel/
+    │   ├── App.java                  # Entry point, scene switching
+    │   ├── PrimaryController.java    # Login screen
+    │   ├── DashboardController.java  # Main shell + nav + dashboard cards
+    │   ├── RoomController.java       # Rooms view (add, update, table)
+    │   ├── BookingController.java    # Bookings view (book, checkout)
+    │   ├── CustomerController.java   # Customers view (add, search, remove)
+    │   ├── SecondaryController.java  # Legacy room form (secondary.fxml)
+    │   ├── Room.java                 # Room model
+    │   ├── Booking.java              # Booking model
+    │   ├── Customer.java             # Customer model
+    │   └── DataStore.java            # Shared in-memory state
+    └── resources/com/hotel/
+        ├── primary.fxml              # Login layout
+        ├── dashboard.fxml            # Main shell layout
+        ├── rooms.fxml                # Rooms view layout
+        ├── bookings.fxml             # Bookings view layout
+        ├── customers.fxml            # Customers view layout
+        ├── secondary.fxml            # Legacy add-room form
+        └── style.css                 # Full app stylesheet
+```
+
+---
+
+## Requirements
+
+- **JDK 17+** — [Download](https://adoptium.net/)
+- **Maven 3.6+** — [Download](https://maven.apache.org/download.cgi)
+- Internet access on first run (Maven downloads JavaFX 17.0.8 from Maven Central)
+
+---
+
+## Running the App
+
+### Recommended (Maven)
 
 ```bash
+cd hotelmanagement
 mvn clean javafx:run
 ```
 
-Windows (using Maven wrapper if available):
+> ⚠️ Make sure you `cd hotelmanagement` first — the `pom.xml` lives there.
+
+### Windows (PowerShell)
 
 ```powershell
-mvnw.cmd clean javafx:run
+cd hotelmanagement
+mvn clean javafx:run
 ```
 
-Run from IDE
+### Running from an IDE (IntelliJ / Eclipse)
 
-If your IDE requires an explicit JavaFX SDK on the module path, add VM options similar to:
-
-```
---module-path /path/to/javafx-sdk-17/lib --add-modules=javafx.controls,javafx.fxml
-```
-
-On Windows (example):
+If your IDE needs an explicit JavaFX SDK on the module path, add these VM options to your run configuration:
 
 ```
 --module-path "C:\path\to\javafx-sdk-17\lib" --add-modules=javafx.controls,javafx.fxml
 ```
 
-Build jar (advanced)
+---
 
-```bash
-mvn clean package
-```
+## Demo Credentials
 
-If you want to run the packaged JAR you may need to provide the JavaFX SDK on the module path:
+| Username | Password  |
+|----------|-----------|
+| admin    | admin123  |
 
-```bash
-java --module-path /path/to/javafx-sdk-17/lib --add-modules=javafx.controls,javafx.fxml -jar target/hotelmanagement-1.0-SNAPSHOT.jar
-```
+---
 
-Notes
-- Adding a room prints a line like `Added room: Room[number=101, type=Single, price=50.0]` to the console.
-- Validation: all fields required and price must be numeric.
-- This is a simple demo; persistence is not implemented.
+## How It Works
 
-If you want, I can run a quick `mvn -q -DskipTests=true package` to verify compilation locally. (Requires JDK 17 available in the environment.)
+1. **Login** with the credentials above
+2. Go to **Rooms** → add a room (number, type, price)
+3. Go to **Bookings** → select a room, enter a customer name and dates → click **Book**
+4. The room status changes to *Booked* and disappears from the available room list
+5. Select a booking and click **Checkout** → the room becomes available again and the revenue is recorded
+6. The **Dashboard** updates its cards live — including **Total Earnings**, which accumulates with every checkout
+7. Go to **Customers** to search, add, or remove guests and see their spending history
+
+---
+
+## Notes
+
+- All data is **in-memory only** — it resets when the app is closed. There is no database or file persistence.
+- Duplicate room numbers and duplicate customer names are both prevented.
+- Check-in dates in the past are rejected at booking time.

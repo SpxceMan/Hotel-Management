@@ -1,0 +1,76 @@
+/* Modern styling for login and dashboard */
+
+/* Gradient app background */
+.login-root, .root {
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-background-color: linear-gradient(to right, #1e3c72, #2a5298);
+}
+
+/* Login card */
+.login-card {
+    -fx-background-color: #ffffff;
+    -fx-padding: 24px;
+    -fx-border-radius: 12px;
+    -fx-background-radius: 12px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.18), 16, 0, 0, 6);
+    -fx-pref-width: 360px;
+}
+
+.login-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: 700;
+    -fx-text-fill: #1f2d3d;
+}
+
+/* Inputs */
+.login-card .text-field, .login-card .password-field {
+    -fx-background-radius: 8px;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px 10px;
+    -fx-border-color: transparent;
+    -fx-background-color: #f7f9fb;
+}
+
+.login-card .text-field:focused, .login-card .password-field:focused {
+    -fx-effect: dropshadow(three-pass-box, rgba(58,123,213,0.18), 6, 0, 0, 2);
+    -fx-background-color: #ffffff;
+    -fx-border-color: derive(#2a5298, -10%);
+}
+
+/* Buttons */
+.login-card .button {
+    -fx-background-color: linear-gradient(#3a7bd5, #2a5298);
+    -fx-text-fill: white;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8px;
+    -fx-padding: 8px 18px;
+}
+.login-card .button:hover {
+    -fx-background-color: linear-gradient(#2e6fc3, #23467a);
+}
+
+/* Sidebar and dashboard */
+.sidebar {
+    -fx-background-color: #222831;
+    -fx-padding: 12px;
+    -fx-pref-width: 180px;
+}
+.sidebar .button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e6eef8;
+    -fx-font-weight: 600;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.topbar { -fx-background-color: transparent; -fx-padding: 10px; }
+
+.card { -fx-background-radius: 8px; -fx-padding: 12px; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.06), 8, 0, 0, 2); -fx-alignment: center; }
+.card-number { -fx-font-size: 26px; -fx-font-weight: bold; }
+.card-title { -fx-font-size: 12px; -fx-text-fill: #666666; }
+.card-total { -fx-background-color: #ffffff; }
+.card-available { -fx-background-color: #e6fff0; }
+.card-bookings { -fx-background-color: #fff6e6; }
+.card-customers { -fx-background-color: #e9f0ff; }
+
+/* Table styling */
+.table-view { -fx-background-color: white; }

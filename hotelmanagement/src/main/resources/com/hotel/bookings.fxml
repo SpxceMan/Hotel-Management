@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.time.LocalDate?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.hotel.BookingController">
+    <top>
+        <VBox spacing="8" padding="10">
+            <children>
+                <Label text="Create Booking" style="-fx-font-size:16px; -fx-font-weight:bold;" />
+                <HBox spacing="8">
+                    <children>
+                        <Label text="Room:" />
+                        <ComboBox fx:id="roomSelect" prefWidth="180" />
+                        <Label text="Customer:" />
+                        <TextField fx:id="customerField" prefWidth="150" />
+                        <Label text="Check-in:" />
+                        <DatePicker fx:id="checkinPicker" />
+                        <Label text="Check-out:" />
+                        <DatePicker fx:id="checkoutPicker" />
+                        <Button text="Book" onAction="#handleBook" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <VBox spacing="8" padding="10">
+            <children>
+                <TableView fx:id="bookingsTable" prefHeight="300">
+                    <columns>
+                        <TableColumn fx:id="colRoom" text="Room" />
+                        <TableColumn fx:id="colCustomer" text="Customer" />
+                        <TableColumn fx:id="colCheckIn" text="Check-In" />
+                        <TableColumn fx:id="colCheckOut" text="Check-Out" />
+                        <TableColumn fx:id="colTotal" text="Total" />
+                    </columns>
+                </TableView>
+                <HBox spacing="8">
+                    <children>
+                        <Button text="Checkout Selected" onAction="#handleCheckout" />
+                        <Label fx:id="messageLabel" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
